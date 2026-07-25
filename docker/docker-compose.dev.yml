@@ -1,0 +1,32 @@
+# Local development services only (Postgres + Redis). The production
+# Dockerfile + full docker-compose.yml (app container, multi-stage build)
+# land in Stage 13.
+services:
+  postgres:
+    image: postgres:16-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: pawdrop
+      POSTGRES_PASSWORD: pawdrop
+      POSTGRES_DB: pawdrop
+    ports:
+      - "5432:5432"
+    volumes:
+      - pawdrop_postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U pawdrop"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  redis:
+    image: redis:7-alpine
+    restart: unless-stopped
+    ports:
+      - "6379:6379"
+    volumes:
+      - pawdrop_redis_data:/data
+
+volumes:
+  pawdrop_postgres_data:
+  pawdrop_redis_data:

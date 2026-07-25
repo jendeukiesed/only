@@ -1,0 +1,35 @@
+name: Scheduled jobs
+
+on:
+  schedule:
+    - cron: "0 3 * * *"   # daily streak maintenance (03:00 UTC)
+    - cron: "0 * * * *"   # close ended contests (hourly)
+  workflow_dispatch:
+    inputs:
+      job:
+        description: "Which cron job to trigger"
+        type: choice
+        default: all
+        options:
+          - all
+          - daily-streak
+          - close-contests
+
+jobs:
+  trigger:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Daily streak
+        if: github.event_name == 'workflow_dispatch' && (inputs.job == 'all' || inputs.job == 'daily-streak') || github.event.schedule == '0 3 * * *'
+        run: |
+          curl --fail -X POST "$APP_URL/api/cron/daily-streak" -H "Authorization: Bearer $CRON_SECRET"
+        env:
+          APP_URL: ${{ secrets.APP_URL }}
+          CRON_SECRET: ${{ secrets.CRON_SECRET }}
+      - name: Close contests
+        if: github.event_name == 'workflow_dispatch' && (inputs.job == 'all' || inputs.job == 'close-contests') || github.event.schedule == '0 * * * *'
+        run: |
+          curl --fail -X POST "$APP_URL/api/cron/close-contests" -H "Authorization: Bearer $CRON_SECRET"
+        env:
+          APP_URL: ${{ secrets.APP_URL }}
+          CRON_SECRET: ${{ secrets.CRON_SECRET }}

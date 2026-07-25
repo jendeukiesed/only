@@ -1,0 +1,151 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/*
+ * PawDrop design tokens (Stage 4).
+ *
+ * Palette philosophy: a near-black/near-white neutral base for hierarchy
+ * and text (the Linear/Vercel/Arc school — let content and photos carry
+ * the color, not chrome), plus one warm "brand" accent used sparingly for
+ * primary CTAs (unlock buttons, active nav) so it stays special instead of
+ * washing out into every button on the page. Score-tier colors are a
+ * second, separate accent family (bronze -> legendary) used only on
+ * mystery-box tier badges/borders, never for general UI, so the two
+ * accent systems never compete for attention on the same screen.
+ */
+@layer base {
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 240 10% 3.9%;
+    --card: 0 0% 100%;
+    --card-foreground: 240 10% 3.9%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 240 10% 3.9%;
+    --primary: 240 5.9% 10%;
+    --primary-foreground: 0 0% 98%;
+    --secondary: 240 4.8% 95.9%;
+    --secondary-foreground: 240 5.9% 10%;
+    --muted: 240 4.8% 95.9%;
+    --muted-foreground: 240 3.8% 46.1%;
+    --accent: 240 4.8% 95.9%;
+    --accent-foreground: 240 5.9% 10%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 0 0% 98%;
+    --success: 142 71% 35%;
+    --success-foreground: 0 0% 98%;
+    --warning: 38 92% 50%;
+    --warning-foreground: 240 10% 3.9%;
+    --border: 240 5.9% 90%;
+    --input: 240 5.9% 90%;
+    --ring: 240 5.9% 10%;
+    --radius: 0.75rem;
+
+    /* Brand accent — warm amber/orange, the "unlock" color. Used for
+       primary marketplace CTAs, active states, and the mystery-box reveal
+       glow. Kept distinct from --primary (near-black) on purpose. */
+    --brand: 24 95% 53%;
+    --brand-foreground: 0 0% 100%;
+    --brand-glow: 24 95% 53%;
+
+    /* Score-tier accents (Bronze -> Legendary), see ScoreTier enum. */
+    --tier-bronze: 25 40% 45%;
+    --tier-silver: 220 9% 60%;
+    --tier-gold: 45 93% 47%;
+    --tier-platinum: 200 60% 60%;
+    --tier-legendary: 271 76% 58%;
+
+    --shadow-color: 240 10% 3.9%;
+  }
+
+  .dark {
+    --background: 240 10% 3.9%;
+    --foreground: 0 0% 98%;
+    --card: 240 10% 6%;
+    --card-foreground: 0 0% 98%;
+    --popover: 240 10% 8%;
+    --popover-foreground: 0 0% 98%;
+    --primary: 0 0% 98%;
+    --primary-foreground: 240 5.9% 10%;
+    --secondary: 240 3.7% 15.9%;
+    --secondary-foreground: 0 0% 98%;
+    --muted: 240 3.7% 15.9%;
+    --muted-foreground: 240 5% 64.9%;
+    --accent: 240 3.7% 15.9%;
+    --accent-foreground: 0 0% 98%;
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 0 0% 98%;
+    --success: 142 71% 45%;
+    --success-foreground: 240 10% 3.9%;
+    --warning: 38 92% 50%;
+    --warning-foreground: 240 10% 3.9%;
+    --border: 240 3.7% 15.9%;
+    --input: 240 3.7% 15.9%;
+    --ring: 240 4.9% 83.9%;
+
+    --brand: 24 95% 58%;
+    --brand-foreground: 240 10% 3.9%;
+    --brand-glow: 24 95% 58%;
+
+    --tier-bronze: 25 45% 55%;
+    --tier-silver: 220 9% 70%;
+    --tier-gold: 45 93% 58%;
+    --tier-platinum: 200 65% 70%;
+    --tier-legendary: 271 76% 68%;
+
+    --shadow-color: 0 0% 0%;
+  }
+
+  * {
+    @apply border-border;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply bg-background text-foreground antialiased;
+    font-feature-settings: "cv11", "ss01";
+  }
+
+  ::selection {
+    @apply bg-brand/20 text-foreground;
+  }
+
+  /* Premium thin scrollbar — Arc/Vercel style, not the OS default. */
+  ::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+  }
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  ::-webkit-scrollbar-thumb {
+    @apply rounded-full bg-border;
+    border: 2px solid hsl(var(--background));
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    @apply bg-muted-foreground/40;
+  }
+
+  /* Keyboard-only focus ring — invisible on mouse click, visible on Tab,
+     per the accessibility requirement in the spec. */
+  :focus-visible {
+    @apply outline-none ring-2 ring-ring ring-offset-2 ring-offset-background;
+  }
+}
+
+@layer utilities {
+  /* Frosted-glass surface used for sticky headers / mystery-box overlays. */
+  .glass {
+    @apply bg-background/70 backdrop-blur-xl backdrop-saturate-150;
+  }
+  .glass-border {
+    @apply border border-white/10 dark:border-white/5;
+  }
+
+  .text-balance {
+    text-wrap: balance;
+  }
+}
