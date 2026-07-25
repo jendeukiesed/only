@@ -45,7 +45,7 @@ export async function authenticateAction(values: LoginInput): Promise<LoginResul
       const code = extractAuthErrorCode(error);
 
       if (code.startsWith("two_factor_required:")) {
-        const ticket = code.split(":")[1];
+        const ticket = code.split(":")[1] ?? "";
         return { status: "two_factor_required", ticket };
       }
 

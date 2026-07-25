@@ -8,6 +8,12 @@ import { QueryProvider } from "@/providers/query-provider";
 import { ServiceWorkerRegistration } from "@/providers/service-worker-registration";
 import "./globals.css";
 
+// Nearly every page in the app reads session state and/or the database, so
+// build-time static prerendering has nothing useful to capture — and would
+// require a reachable, seeded database during `next build`. Rendering
+// everything at request time keeps builds environment-independent.
+export const dynamic = "force-dynamic";
+
 // Two-font system: Inter for body copy/UI chrome (workhorse, excellent at
 // small sizes), Sora for display headings (geometric, a little more
 // characterful — hero copy, section titles, score reveals). Both exposed
