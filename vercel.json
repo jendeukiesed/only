@@ -5,7 +5,7 @@
   "crons": [
     { "path": "/api/cron/daily-streak", "schedule": "5 0 * * *" },
     { "path": "/api/cron/weekly-missions", "schedule": "10 0 * * 1" },
-    { "path": "/api/cron/close-contests", "schedule": "0 * * * *" }
+    { "path": "/api/cron/close-contests", "schedule": "15 0 * * * *" }
   ],
   "headers": [
     {
