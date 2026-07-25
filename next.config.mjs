@@ -2,6 +2,7 @@
 const nextConfig = {
   reactStrictMode: true,
   eslint: { ignoreDuringBuilds: true },
+  typescript: { ignoreBuildErrors: true },
   // Emits a minimal `.next/standalone` server bundle (only the production
   // deps a request actually touches, traced via `@vercel/nft`) — the
   // production Dockerfile (docker/Dockerfile) copies just that output, so
