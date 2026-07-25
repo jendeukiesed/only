@@ -1,4 +1,11 @@
-import { Role } from "@prisma/client";
+/**
+ * Edge-safe role name union. Structurally identical to Prisma's generated
+ * `Role` enum (which is a string-literal union, so the two are mutually
+ * assignable) — but deliberately NOT imported from "@prisma/client":
+ * this file is part of the middleware import graph, which runs in the
+ * Edge runtime where Prisma's client entrypoint cannot load.
+ */
+export type Role = "BUYER" | "SELLER" | "ADMIN";
 
 /** Where each role lands after a successful login / when hitting "/". */
 export const ROLE_DASHBOARD_PATH: Record<Role, string> = {

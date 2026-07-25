@@ -1,7 +1,13 @@
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
-import { Role } from "@prisma/client";
-import { ROLE_ROUTE_PREFIX, ROLE_LOGIN_PATH, ROLE_DASHBOARD_PATH } from "@/lib/constants/roles";
+// Edge runtime: Role must come from the local edge-safe union, never from
+// "@prisma/client" (whose entrypoint cannot load in middleware).
+import {
+  type Role,
+  ROLE_ROUTE_PREFIX,
+  ROLE_LOGIN_PATH,
+  ROLE_DASHBOARD_PATH,
+} from "@/lib/constants/roles";
 
 export interface AuthedRequestUser {
   id: string;
@@ -11,9 +17,9 @@ export interface AuthedRequestUser {
 }
 
 const PROTECTED_PREFIXES: { prefix: string; role: Role }[] = [
-  { prefix: ROLE_ROUTE_PREFIX.BUYER + "/dashboard", role: Role.BUYER },
-  { prefix: ROLE_ROUTE_PREFIX.SELLER + "/dashboard", role: Role.SELLER },
-  { prefix: ROLE_ROUTE_PREFIX.ADMIN + "/dashboard", role: Role.ADMIN },
+  { prefix: ROLE_ROUTE_PREFIX.BUYER + "/dashboard", role: "BUYER" },
+  { prefix: ROLE_ROUTE_PREFIX.SELLER + "/dashboard", role: "SELLER" },
+  { prefix: ROLE_ROUTE_PREFIX.ADMIN + "/dashboard", role: "ADMIN" },
 ];
 
 /**
